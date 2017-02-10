@@ -155,18 +155,16 @@ html, body {
                                                 
                                             </span>
                                             
-                                            <button
-                                                class="btn btn-default btn-xs"
-                                                @click="copy(json(key))"
-                                            >
-                                                Copy
-                                            </button>
-                                            <button
-                                                class="btn btn-default btn-xs"
-                                                @click="saveAs('eddsa.json', json(key))"
-                                            >
-                                                Save
-                                            </button>
+                                            <div class="btn-group">
+                                                <button
+                                                    class="btn btn-default btn-xs"
+                                                    @click="copy(json(key))"
+                                                >Copy</button>
+                                                <button
+                                                    class="btn btn-default btn-xs"
+                                                    @click="saveAs('eddsa.json', json(key))"
+                                                >Save</button>
+                                            </div>
                                         </div>
                                     </dt>
                                     <dd>
