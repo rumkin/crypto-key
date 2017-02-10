@@ -1,0 +1,490 @@
+
+<html>
+    <head>
+        <title>
+            Crypto Key
+        </title>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+            <style>html {
+  font-family: sans-serif; }
+
+[al-cloak] {
+  display: none  !important; }
+
+html, body {
+  min-height: 100%; }
+
+.fullheight, .fh {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column; }
+  .fullheight-top, .fullheight-bottom, .fh-top, .fh-bottom {
+    flex-grow: 0;
+    flex-shrink: 0;
+    padding: 15px; }
+  .fullheight-body, .fh-body {
+    flex-grow: 1;
+    padding: 15px; }
+
+.app {
+  background-color: #eee; }
+  .app-footer {
+    color: #999;
+    line-height: 30px; }
+  .app-bumper {
+    height: 5%; }
+  .appHeader-head {
+    margin: 0;
+    padding: 20px 0; }
+  .appHeader-title {
+    font-size: 24px;
+    margin: 0; }
+  .appHeader-subtitle {
+    color: #999; }
+
+.edForm {
+  margin: 0; }
+
+.ed-data {
+  font-size: 0.75em; }
+
+.ff-row {
+  display: flex; }
+
+.ff-spacer {
+  flex: 1; }
+</style>
+    </head>
+    <body>
+        <div id="app" class="fh app" al-cloak>
+    <header class="fh-top app-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-11">
+                    <header class="appHeader-head">
+                        <h1 class="appHeader-title">
+                            Crypto Signature Generator
+                        </h1>
+                        <p class="appHeader-subtitle">
+                            Ed25519 elliptic curve key generator.
+                        </p>
+                    </header>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="fh-body app-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="app-bumper">
+                        &nbsp;
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <form class="edForm" @submit="key = createSignature(value)">
+                                <div class="input-group">
+                                    <input
+                                        class="form-control"
+                                        al-model="value"
+                                        aria-label="Password"
+                                        placeholder="Password"
+                                        autofocus
+                                    />
+                                    <div class="input-group-btn">
+                                        <button type="submit" class="btn btn-default" aria-label="Generate signature">Generate</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div al-hide="!key">
+                                <hr/>
+                                <p class="alert alert-warning">
+                                    <strong>Attention!</strong> Don't provide your password or secret key to anyone! If it happens change password and withdraw compromised public key.
+                                </p>
+                                <dl>
+                                    <dt>
+                                        <div class="ff-row">
+                                            <span>
+                                                Public
+                                            </span>
+                                            
+                                            <span class="ff-spacer">
+                                                
+                                            </span>
+                                            
+                                            <button
+                                                class="btn btn-default btn-xs"
+                                                @click="copy(key.public)"
+                                            >
+                                                Copy
+                                            </button>
+                                        </div>
+                                    </dt>
+                                    <dd>
+                                        <pre class="ed-data"><code>{{key && key.public}}</code></pre>
+                                    </dd>
+                                    <dt>
+                                        <div class="ff-row">
+                                            <span>
+                                                Secret
+                                            </span>
+                                            
+                                            <span class="ff-spacer">
+                                                
+                                            </span>
+                                            
+                                            <button
+                                                class="btn btn-default btn-xs"
+                                                @click="copy(key.secret)"
+                                            >
+                                                Copy
+                                            </button>
+                                        </div>
+                                    </dt>
+                                    <dd>
+                                        <pre class="ed-data"><code>{{key && key.secret}}</code></pre>
+                                    </dd>
+                                    
+                                    <dt>
+                                        <div class="ff-row">
+                                            <span>
+                                                As JSON
+                                            </span>
+                                            
+                                            <span class="ff-spacer">
+                                                
+                                            </span>
+                                            
+                                            <button
+                                                class="btn btn-default btn-xs"
+                                                @click="copy(json(key))"
+                                            >
+                                                Copy
+                                            </button>
+                                            <button
+                                                class="btn btn-default btn-xs"
+                                                @click="saveAs('eddsa.json', json(key))"
+                                            >
+                                                Save
+                                            </button>
+                                        </div>
+                                    </dt>
+                                    <dd>
+                                        <pre class="ed-data"><code>{{key | json}}</code></pre>
+                                    </dd>
+                                </dl>
+                                <button
+                                    class="btn btn-default"
+                                    @click="key = null"
+                                    >Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <iframe src="https://ghbtns.com/github-btn.html?user=rumkin&amp;repo=crypto-key&amp;type=star&amp;count=false&amp;size=large" frameborder="0" scrolling="0" width="76px" height="30px"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="fh-bottom app-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    Crafted by <a href="https://rumk.in">Rumkin</a> in 2017.
+                    Built with <a href="https://github.com/indutny">elliptic</a>, <a href="https://github.com/lega911/angular-light">angular light</a>, <a href="https://github.com/lgarron/clipboard.js">clipboard.js</a>.
+                    Source at <a href="https://github.com/rumkin/crypto-key">Github</a>.
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+            <script src="https://unpkg.com/clipboard-js/clipboard.min.js" type="text/javascript" language="javascript"></script>
+            <script src="http://rumkin.github.io/crypto-key/scripts/elliptic.js" type="text/javascript" language="javascript"></script>
+            <script src="https://angularlight.org/bin/alight_0.12.last.min.js" type="text/javascript" language="javascript"></script>
+            <script src="https://unpkg.com/js-sha256/build/sha256.min.js" type="text/javascript" language="javascript"></script>
+            <script type="text/javascript">;(function() { 'use strict';
+
+function normalize(path) {
+    return path.replace(/\/+|\\+/g, '/').replace(/^\.\//g, '').replace(/\/$/, '');
+}
+
+function _join(path) {
+    let segments = Array.prototype.slice.call(arguments).reduce((result, path) => {
+        return result.concat(path);
+    }, []);
+    
+    let result = [];
+    let j = 0;
+    
+    for (let i = 0, l = segments.length; i < l; i++, j++) {
+        let item = segments[i];
+        
+        if (item === '..') {
+            if (j > 0) {
+                j -= 2;
+            }
+            else if (j > -1) {
+                j -= 1;
+            }
+        }
+        else if (item === '.') {
+            if (j > 0) {
+                j -= 1;
+            }
+        }
+        else {
+            result[j] = item;
+        }
+    }
+    
+    return result.slice(0, j);
+}
+
+function join(...paths) {
+    let prev;
+    let lastRoot = 0;
+    
+    let segments = paths.map((path, i) => {
+        if (path[0] == '/') {
+            lastRoot = i;
+        }
+        
+        if (path === '/') {
+            if (prev === '/') {
+                return [];
+            }
+            
+            prev = '/';
+            return [''];
+        }
+        else {
+            prev = normalize(path);
+            return prev.split('/');
+        }
+    })
+    .slice(lastRoot);
+    
+    let result = _join.apply(null, segments);
+    
+    if (result.length === 1 && result[0] === '') {
+        return '/';
+    }
+    else {
+        return result.join('/');
+    }
+}
+
+function resolve(path) {
+    let paths = Array.prototype.slice.call(arguments);
+    paths.unshift('/');
+    return normalize('/' + join.apply(null, paths));
+}
+
+function parse(path_) {
+    let path = normalize(path_).split('/');
+    
+    let filename = path[path.length - 1];
+    let ext = extname(filename);
+    let name = filename.slice(0, filename.length - ext.length);
+    let dir = path.slice(0, -1).join('/');
+    
+    return {
+        root: dir.charAt(0) === '/' ? '/' : '',
+        dir,
+        base: filename,
+        ext,
+        name,
+    };
+}
+
+function extname(filename_) {
+    let filename = normalize(filename_);
+    
+    let i = filename.lastIndexOf('.');
+    let n = filename.lastIndexOf('/');
+    
+    if (i < 0 || n > -1 && i < n) {
+        return '';
+    }
+
+    return filename.slice(i);
+}
+
+function basename(filename_) {
+    let filename = normalize(filename_);
+    
+    let i = filename.lastIndexOf('/');
+    
+    if (i < 0) {
+        return filename;
+    }
+
+    return filename.slice(i);
+}
+
+let Path = {
+    resolve: resolve,
+    join: join,
+    normalize: normalize,
+    parse: parse,
+    extname: extname,
+    basename: basename,
+};
+
+let Jsville;
+    
+if (window.Jsville) {
+    Jsville = window.Jsville;
+}
+else {
+    Jsville = {
+        version: '0.1.0',
+        modules: {},
+        loadedModules: [],
+        hasModule(path) {
+            return modules.hasOwnProperty(Path.resolve(path));
+        },
+    };
+    
+    window.Jsville = Jsville;
+}
+
+let modules = Jsville.modules;
+let loadedModules = Jsville.loadedModules;
+
+function define(path, fn) {
+    let p;
+    if (path.startsWith('.')) {
+        p = '/' + parentModule + Path.resolve('/', path);
+    }
+    else {
+        p = Path.resolve('/', path);
+    }
+    
+    if (modules.hasOwnProperty(p)) {
+        throw new Error('File "' + path + '" already registered');
+    }
+    
+    modules[p] = {
+        filename: p,
+        dirname: p.split('/').slice(0, -1).join('/'),
+        exports: {},
+        isLoaded: false,
+        isMain: false,
+        fn,
+    };
+}
+
+function requirer(dir) {
+    let result = function require(path) {
+        let p;
+        if (path.startsWith('.')) {
+            p = Path.resolve(dir, path);
+        }
+        else {
+            p = Path.resolve('/', path);
+        }
+        
+        if (! modules.hasOwnProperty(p)) {
+            if (modules.hasOwnProperty(p + '/index.js')) {
+                p += '/index.js';
+            }
+            else {
+                throw new Error('Module "' + p + '" not found');
+            }
+        }
+        
+        let module = modules[p];
+        
+        if (module.isLoaded) {
+            return module.exports;
+        }
+        else {
+            module.isLoaded = true;
+            if (loadedModules.length) {
+                module.isMain = false;
+                module.parent = loadedModules[loadedModules.length - 1];
+            }
+            else {
+                module.isMain = ! loadedModules.length;
+                module.parent = null;
+            }
+            
+            loadedModules.push(p);
+            
+            module.fn(module, module.exports, requirer(module.dirname), module.filename, module.dirname)
+            return module.exports;
+        }
+    };
+    
+    result.loadedModules = loadedModules;
+    
+    return result;
+}
+
+Jsville.require = Jsville.require || requirer('/');
+
+if (! Jsville.hasModule('jsville')) {
+    define('jsville', function(module) {
+        module.exports = Jsville;
+    });
+}
+
+if (! Jsville.hasModule('path')) {
+    define('path', function(module) {
+        module.exports = Path;
+    });
+}
+define("/rmkn/ecdsa/index.js", function(module,exports,require,__filename,__dirname){var EDDSA = Browserify.require('elliptic').eddsa;
+var ec = new EDDSA('ed25519');
+
+function createSignature(value) {
+    return ec.keyFromSecret(sha256(value), 'hex');
+}
+
+function download(filename, text) {
+    var pom = document.createElement('a');
+    pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    pom.setAttribute('download', filename);
+
+    if (document.createEvent) {
+        var event = document.createEvent('MouseEvents');
+        event.initEvent('click', true, true);
+        pom.dispatchEvent(event);
+    } else {
+        pom.click();
+    }
+}
+
+alight.filters.json = function (value) {
+    return JSON.stringify(value, null, 2);
+};
+
+alight.bootstrap('#app', {
+    value: '',
+    json(value) {
+        return JSON.stringify(value, null, 4);
+    },
+    createSignature(value) {
+        var key = createSignature(value || '');
+
+        return {
+            public: key.getPublic('hex'),
+            secret: key.getSecret('hex')
+        };
+    },
+    saveAs(filename, data) {
+        download(filename, data);
+    },
+    copy: clipboard.copy
+});
+});
+})();</script>
+        <script type="text/javascript">
+            Jsville.require("rmkn/ecdsa");
+        </script>
+        <!-- Built with JSVille -->
+    </body>
+</html>
